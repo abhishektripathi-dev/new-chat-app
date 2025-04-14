@@ -18,17 +18,17 @@ function renderMessages(messages) {
     });
 }
 
-function getLastMessageTimestamp() {
+function getLastMessageId() {
     if (allMessages.length === 0) return null;
-    return allMessages[allMessages.length - 1].createdAt;
+    return allMessages[allMessages.length - 1].id;
 }
 
 async function fetchNewMessages() {
-    const after = getLastMessageTimestamp();
+    const lastId = getLastMessageId();
     try {
         const res = await axios.get(`http://localhost:3000/api/messages`, {
             headers: { Authorization: `Bearer ${token}` },
-            params: after ? { after } : {},
+            params: lastId ? { lastMessageId: lastId } : {},
         });
 
         const newMessages = res.data;
